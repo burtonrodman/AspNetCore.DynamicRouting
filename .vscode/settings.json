@@ -1,0 +1,6 @@
+{
+    "dotnet.defaultSolution": "AspNetCore.DynamicRouting.slnx",
+    "cSpell.words": [
+        "burtonrodman"
+    ]
+}

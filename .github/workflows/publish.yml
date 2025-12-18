@@ -1,0 +1,40 @@
+name: publish to nuget
+
+permissions:
+  id-token: write   # required for GitHub OIDC
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
+
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build src/AspNetCore.DynamicRouting/AspNetCore.DynamicRouting.csproj -c Release
+
+      - name: Pack
+        run: dotnet pack src/AspNetCore.DynamicRouting/AspNetCore.DynamicRouting.csproj -c Release
+
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Publish NuGet Package
+        run: dotnet nuget push /home/runner/work/AspNetCore.DynamicRouting/AspNetCore.DynamicRouting/src/AspNetCore.DynamicRouting/bin/Release/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

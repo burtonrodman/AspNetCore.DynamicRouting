@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/SampleWeb/SampleWeb.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AspNetCore.DynamicRouting/AspNetCore.DynamicRouting.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AspNetCore.DynamicRouting.Tests/AspNetCore.DynamicRouting.Tests.csproj" />
+  </Folder>
+</Solution>
